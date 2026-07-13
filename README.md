@@ -94,19 +94,6 @@ The primary persona created for this project is Rahul Sharma, a 21-year-old engi
 
 ---
 
-📂 Repository Structure
-
-swiggy-ux-case-study/
-│
-├── README.md
-├── case-study.pdf
-├── research-notes.pdf
-├── user-persona.png
-├── screenshots/
-└── wireframes/
-
----
-
 📚 Skills Demonstrated
 
 - UX Research
