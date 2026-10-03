@@ -1,111 +1,148 @@
-🍔 Swiggy UX Case Study
+# Duolingo UX Case Study — Streaks: Motivation or Pressure?
 
-📌 Project Overview
+A responsive UX case study exploring how Duolingo's streak system can motivate daily learning while potentially creating pressure when learners miss a day.
 
-This project is a UX case study focused on improving the user experience of the Swiggy mobile application. The goal was to identify usability issues, understand user behavior, and propose solutions that make food ordering faster, easier, and more accessible.
+## Core Question
 
----
+**When does a streak help someone learn, and when does it push them to quit?**
 
-🎯 Objectives
-
-- Understand how users interact with Swiggy.
-- Identify usability problems and pain points.
-- Conduct user research and analysis.
-- Evaluate the app using UX principles.
-- Propose design and accessibility improvements.
-
----
-
-👨‍💻 My Role
+## Role
 
 - UX Researcher
 - UX Designer
-- Usability Analyst
 
----
+## Research Approach
 
-🔍 Research Methods
+The case study demonstrates a complete UX research workflow:
 
-- User interviews
-- Observation
-- Informal surveys
-- Heuristic evaluation
+1. Interviews
+2. Survey
+3. Heuristic review
+4. Design iteration
+5. Prototype usability testing
 
----
+## Illustrative Research Evidence
 
-👥 Participants
+Because real participant evidence was not provided for this project, this portfolio version uses a **simulated/illustrative dataset** generated from the case-study problem statement.
 
-Five users between the ages of 19 and 28 participated in the study.
+The case study demonstrates:
 
----
+- **8** illustrative interview participants
+- **30** illustrative survey responses
+- **6** illustrative heuristic issues
+- **5** illustrative prototype-test sessions
 
-📊 Key Findings
+### Illustrative findings
 
-- Users appreciate fast delivery and multiple restaurant options.
-- The home screen contains too many promotional banners.
-- Restaurant comparison is difficult.
-- Delivery charges are not clearly visible.
-- Users frequently reorder food from the same restaurants.
+- 6/8 modeled learners found the streak motivating.
+- 5/8 also described pressure when a long streak was at risk.
+- 19/30 modeled survey responses selected motivation as the primary reaction.
+- 14/30 modeled responses reported stress or guilt when a long streak was at risk.
+- 4/5 modeled usability-test participants understood the rest-day concept without help.
+- 4/5 preferred a progress-focused recovery message.
+- 3/5 described the gentler reminder as less pressuring.
 
----
+**Important:** These are simulated portfolio evidence, not real participant results. They must not be presented as actual research.
 
-🧑 User Persona
+## Problem
 
-The primary persona created for this project is Rahul Sharma, a 21-year-old engineering student who regularly uses Swiggy for quick and affordable meals.
+The streak system is effective at creating a daily habit, but the missed-day experience can make learners feel that their accumulated progress has suddenly been lost.
 
----
+The design challenge is therefore not simply to remove streaks. It is to preserve motivation while reducing unnecessary pressure.
 
-🚨 Problems Identified
+## Proposed Solution
 
-1. Cluttered homepage.
-2. Excessive promotions.
-3. Difficult restaurant comparison.
-4. Unclear delivery charges.
-5. Confusing order tracking.
+### 1. Rest Days
 
----
+Allow learners to schedule planned breaks so predictable interruptions do not automatically feel like failure.
 
-💡 Proposed Solutions
+### 2. Gentler Reminders
 
-- Simplify the home screen.
-- Add a restaurant comparison feature.
-- Improve order tracking.
-- Increase accessibility.
-- Introduce a “Reorder Favorites” section.
+Use supportive wording and provide more control over reminder frequency.
 
----
+### 3. Progress Over Loss
 
-♿ Accessibility Improvements
+When a streak is missed, emphasize accumulated learning and provide an easy next step instead of focusing only on the lost number.
 
-- Better color contrast.
-- Larger text sizes.
-- Bigger touch targets.
-- Improved readability.
-- Clear icon labels.
+## Responsive Navigation
 
----
+### Desktop
 
-🛠️ Tools Used
+Horizontal section navigation:
 
+`Problem · Research · Hypotheses · Poll · Solution · Results`
+
+### Mobile
+
+A three-line hamburger menu opens the same section navigation, preventing horizontal overflow on small screens.
+
+## Interactive Features
+
+- Responsive navigation
+- Mobile hamburger menu
+- Reading progress indicator
+- Current-vs-proposed streak comparison
+- Research-method tabs
+- Hypothesis status controls
+- Reader poll
+- Solution comparison tabs
+- Interactive rest-day planner
+- Priority cards
+- Simulated research findings
+- Results and reflection section
+- Portfolio CTA
+
+## Tools
+
+- Figma
 - Canva
-- Google Docs
-- GitHub
-- Swiggy Mobile App
+- Duolingo app
+- HTML
+- CSS
+- JavaScript
 
----
+## Files
 
-📚 Skills Demonstrated
+```text
+duolingo-ux-case-study-complete.html
+Duolingo_UX_Case_Study_Research_Notes_Illustrative.docx
+README_Updated.md
+```
 
-- UX Research
-- User Persona Development
-- Heuristic Evaluation
-- Usability Testing
-- Accessibility Design
-- Wireframing
-- Problem Solving
+## How to Run
 
----
+Open the HTML file in a modern browser.
 
-✅ Conclusion
+For local development, serve the project directory using any static web server.
 
-This case study demonstrates the importance of user-centered design in food delivery applications. By identifying usability issues and proposing practical solutions, the project aims to improve the overall experience for Swiggy users.
+## Research Integrity
+
+This project intentionally distinguishes between:
+
+- **Evidence** — real research data
+- **Hypotheses** — assumptions that need validation
+- **Illustrative evidence** — simulated data used to demonstrate a portfolio case-study structure
+- **Design proposals** — solutions that still require validation
+
+Before presenting this as real UX research, replace the illustrative numbers and findings with actual participant evidence.
+
+## Next Step for a Real Study
+
+If real testing becomes available, collect:
+
+- Participant profile and recruitment criteria
+- Interview notes and direct quotes
+- Survey questions and raw response counts
+- Heuristic-review screenshots and severity ratings
+- Prototype tasks
+- Observed behaviors
+- Participant quotes
+- Task success rates
+- Post-test feedback
+- Limitations and final conclusions
+
+## Author
+
+**Ugra Narasimha Reddy**
+
+UX Researcher & Designer
