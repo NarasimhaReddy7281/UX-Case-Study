@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Duolingo UX Case Study | Streaks: motivation or pressure?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f8;--sf:#fff;--ink:#1c2530;--mute:#5d6877;--line:#dde2e8;--gr:#58cc02;--grd:#3d8f00;--grt:#e6f7d4;--rd:#d93a3a;--rdt:#fde7e7;--am:#ffb100;--amt:#fff3d1;--bl:#1478b4;--blt:#dff2fc;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131a22;--sf:#1b242e;--ink:#eaf0f6;--mute:#9aa8b8;--line:#2c3947;--grt:#1d3310;--grd:#7fe02e;--rdt:#3d1c1c;--rd:#ff7b7b;--amt:#3a2e0c;--blt:#12303f;--bl:#5cc3f5}}
+:root[data-theme="dark"]{--bg:#131a22;--sf:#1b242e;--ink:#eaf0f6;--mute:#9aa8b8;--line:#2c3947;--grt:#1d3310;--grd:#7fe02e;--rdt:#3d1c1c;--rd:#ff7b7b;--amt:#3a2e0c;--blt:#12303f;--bl:#5cc3f5}
+html{scroll-padding-top:70px;scroll-behavior:smooth}*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 19px/1.65 Newsreader,Georgia,serif}
+h1,h2,h3,.s{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.w{max-width:1040px;margin:0 auto;padding:0 24px}
+#prog{position:fixed;top:0;left:0;height:4px;width:0;background:var(--gr);z-index:9}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:10px 0}
+nav .w{display:flex;align-items:center;gap:12px}
+.nav-brand{font:800 15px 'Bricolage Grotesque',sans-serif;color:var(--ink);text-decoration:none;white-space:nowrap;margin-right:auto}
+.nav-links{display:flex;gap:6px;white-space:nowrap}
+nav a{font:600 14px 'Bricolage Grotesque',sans-serif;color:var(--mute);text-decoration:none;padding:7px 12px;border-radius:99px}
+nav a:hover{background:var(--sf);color:var(--ink)}
+nav a.on{background:var(--gr);color:#10260a}
+.nav-select{display:none;font:600 14px 'Bricolage Grotesque',sans-serif;color:var(--ink);background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:9px 34px 9px 12px;min-width:150px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:10px 0}
+nav .w{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.navbrand{font:800 16px 'Bricolage Grotesque',sans-serif;color:var(--ink);white-space:nowrap}
+.navlinks{display:flex;gap:6px;align-items:center}
+nav a{font:600 14px 'Bricolage Grotesque',sans-serif;color:var(--mute);text-decoration:none;padding:7px 12px;border-radius:99px}
+nav a.on{background:var(--gr);color:#10260a}
+.navmenu{display:none;position:relative}
+.navmenu button{width:46px;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--sf);cursor:pointer;display:grid;place-items:center}
+.navmenu .bars{display:grid;gap:4px}
+.navmenu .bars i{display:block;width:21px;height:2px;border-radius:3px;background:var(--ink)}
+.navdropdown{display:none;position:absolute;right:0;top:50px;min-width:190px;padding:8px;background:var(--sf);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.navdropdown.open{display:grid}
+.navdropdown a{border-radius:9px}
+.navdropdown a:hover,.navdropdown a.on{background:var(--gr);color:#10260a}
+a:focus-visible,button:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
+section{padding:72px 0 4px}
+h2{font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 18px;letter-spacing:-.02em;font-weight:800;max-width:22ch}
+h3{font-size:19px;margin:0 0 6px}
+p{max-width:62ch;margin:0 0 16px}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;padding:56px 0 8px}
+h1{font-size:clamp(38px,6vw,66px);line-height:1;letter-spacing:-.03em;font-weight:800;margin:0 0 18px}
+.lede{font-size:21px;max-width:42ch}
+.btn{font:700 16px 'Bricolage Grotesque',sans-serif;border:0;border-radius:14px;padding:13px 20px;cursor:pointer;color:#10260a;background:var(--gr);box-shadow:0 4px 0 var(--grd);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--grd)}
+.btn.ghost{background:var(--sf);color:var(--ink);box-shadow:0 4px 0 var(--line);border:1px solid var(--line)}
+.btn.ghost:active{box-shadow:0 1px 0 var(--line)}
+/* streak toy */
+.toy{background:var(--sf);border:1px solid var(--line);border-radius:22px;padding:24px;text-align:center}
+.mode{display:inline-flex;border:1px solid var(--line);border-radius:99px;padding:3px;margin-bottom:16px}
+.mode button{font:600 14px 'Bricolage Grotesque';border:0;background:none;color:var(--mute);padding:7px 16px;border-radius:99px;cursor:pointer}
+.mode button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.big{font:800 72px/1 'Bricolage Grotesque';color:var(--am)}
+.big.dead{color:var(--mute)}
+.days{display:flex;justify-content:center;gap:8px;margin:14px 0}
+.d{width:34px;height:34px;border-radius:50%;background:var(--bg);border:2px solid var(--line);display:grid;place-items:center;font:700 13px 'Bricolage Grotesque';color:var(--mute)}
+.d.on{background:var(--am);border-color:var(--am);color:#2d2000}
+.msg{min-height:76px;border-radius:14px;padding:12px 14px;font:500 16px/1.4 'Bricolage Grotesque';margin:10px 0 14px;background:var(--bg);transition:background .2s}
+.msg.warn{background:var(--rdt);color:var(--rd)}.msg.ok{background:var(--grt)}.msg.calm{background:var(--blt)}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.hint{font:500 14px 'Bricolage Grotesque';color:var(--mute);margin-top:12px}
+/* cards */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);margin-top:40px}
+.facts div{padding:14px 14px 14px 0;font-size:17px;line-height:1.4}
+.facts b{display:block;font:700 13px 'Bricolage Grotesque';color:var(--mute);margin-bottom:3px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.hy{background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.hy p{font-size:17px;margin:0}
+.st{align-self:flex-start;font:700 13px 'Bricolage Grotesque';border:0;border-radius:99px;padding:6px 12px;cursor:pointer;background:var(--amt);color:var(--ink)}
+.st[data-s=yes]{background:var(--grt)}.st[data-s=no]{background:var(--rdt)}
+.hy details{font-size:16px}.hy summary{cursor:pointer;font:600 14px 'Bricolage Grotesque';color:var(--bl)}
+.poll{background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:22px;max-width:620px}
+.opt{display:block;width:100%;text-align:left;position:relative;overflow:hidden;font:600 16px 'Bricolage Grotesque';border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.opt i{position:absolute;inset:0 auto 0 0;width:0;background:var(--grt);transition:width .4s;z-index:0}
+.opt span{position:relative;z-index:1;display:flex;justify-content:space-between}
+.ph{border:2px dashed var(--am);background:var(--amt);border-radius:12px;padding:20px;font:500 16px/1.5 'Bricolage Grotesque';margin:8px 0 18px}
+.ph b{display:block;margin-bottom:3px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;margin:10px 0 20px}
+.steps button{font:600 14px 'Bricolage Grotesque';border:0;border-bottom:4px solid var(--line);background:none;color:var(--mute);padding:10px 4px;cursor:pointer}
+.steps button[aria-selected=true]{border-color:var(--gr);color:var(--ink)}
+.panel{background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.panel p{margin:0}
+footer{margin:80px 0 0;padding:36px 0 56px;border-top:1px solid var(--line);font:500 16px 'Bricolage Grotesque';color:var(--mute)}
+footer a{color:var(--bl)}
+.site-footer{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.site-footer strong{display:block;font:800 20px 'Bricolage Grotesque',sans-serif;color:var(--ink)}
+.site-footer span{display:block;margin-top:4px}
+.portfolio-btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;background:var(--gr);color:#10260a;font:800 16px 'Bricolage Grotesque',sans-serif;padding:13px 20px;border-radius:14px;box-shadow:0 4px 0 var(--grd)}
+.portfolio-btn:hover{filter:brightness(.97)}
+@media (max-width:560px){.site-footer{align-items:flex-start;flex-direction:column}.portfolio-btn{width:100%;justify-content:center}}
+
+@media (max-width:780px){
+  .w{padding:0 16px}
+  nav{padding:8px 0}
+  nav .w{gap:10px}
+  .nav-brand{font-size:14px}
+  .nav-links{display:none}
+  .nav-select{display:block}
+  .hero,.grid{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .big{font-size:60px}
+}
+@media (max-width:430px){
+  .facts{grid-template-columns:1fr}
+  .nav-brand{max-width:42vw;overflow:hidden;text-overflow:ellipsis}
+  .nav-select{min-width:138px}
+}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.nt{border-radius:14px;padding:14px;font:500 15px/1.4 'Bricolage Grotesque';border:1px solid var(--line)}
+.nt small{display:block;font-weight:700;margin-bottom:4px;color:var(--mute)}
+.nt.b{background:var(--rdt)}.nt.a{background:var(--grt)}
+.rest{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--sf);color:var(--ink);font:700 14px 'Bricolage Grotesque';cursor:pointer}
+.rest[aria-pressed=true]{background:var(--bl);border-color:var(--bl);color:#fff}
+.tagp{font:700 13px 'Bricolage Grotesque';border-radius:99px;padding:4px 10px;display:inline-block;background:var(--amt)}
+@media (max-width:780px){.cmp{grid-template-columns:1fr}}
+
+/* Final mobile hamburger navigation */
+.hamburger{display:none;width:48px;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--sf);padding:9px;cursor:pointer}
+.hamburger span{display:block;width:25px;height:3px;background:var(--ink);border-radius:3px;margin:4px auto}
+.mobile-nav{display:none}
+.mobile-nav.open{display:grid}
+.mobile-nav a{display:block;padding:10px 12px}
+@media(max-width:780px){.nav-links{display:none}.hamburger{display:block;margin-left:auto}.mobile-nav{position:absolute;right:16px;top:58px;width:200px;background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 10px 28px rgba(0,0,0,.15)}.nav-select{display:none!important}}
+@media(max-width:430px){.nav-brand{max-width:60vw;overflow:hidden;text-overflow:ellipsis}}
+
+/* Figma redesign result showcase */
+.redesign-showcase{margin:28px 0 10px;background:var(--sf);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(20,40,60,.05)}
+.redesign-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px}.showcase-copy{font-size:17px;max-width:65ch;margin-bottom:0}.screen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.screen-card{border:1px solid var(--line);border-radius:18px;background:var(--bg);padding:12px;overflow:hidden}.screen-label{display:flex;justify-content:space-between;gap:8px;font:600 13px 'Bricolage Grotesque';margin:2px 2px 10px;color:var(--mute)}.screen-label b{color:var(--ink)}.phone-screen,.desktop-screen{background:#fff;border:1px solid #dfe6ea;color:#172018;border-radius:16px;min-height:360px;padding:14px;box-shadow:0 5px 16px rgba(0,0,0,.06);font-family:'Bricolage Grotesque',sans-serif}.phone-screen{max-width:240px;margin:0 auto}.mini-top{display:flex;justify-content:space-between;color:#172018;font-size:11px;padding-bottom:9px;border-bottom:1px solid #e5e9e8}.mini-pill{display:inline-block;margin-top:16px;background:#e6f7d4;color:#3d8f00;border-radius:99px;padding:5px 9px;font-size:9px;font-weight:800}.mini-pill.blue{background:#dff2fc;color:#1478b4}.phone-screen h4,.desktop-screen h4{font-size:21px;line-height:1.05;margin:14px 0 7px}.phone-screen p,.desktop-screen p{font-size:11px;line-height:1.4;color:#64706a;margin:0 0 14px}.mini-panel,.desktop-panel{background:#f4f7f4;border:1px solid #e0e7e1;border-radius:13px;padding:12px;display:grid;gap:5px}.mini-panel small,.desktop-panel small,.mini-stat small{font-size:8px;color:#78847d;font-weight:800}.mini-panel strong,.desktop-panel strong{font-size:13px}.mini-panel span,.desktop-panel span{font-size:9px;color:#68736d}.mini-panel em,.desktop-panel em{font-style:normal;color:#1478b4;font-size:9px}.mini-panel hr,.desktop-panel hr{width:100%;border:0;border-top:1px solid #dde4de;margin:7px 0}.mini-btn{border:0;border-radius:10px;background:#58cc02;color:#10260a;font:800 11px 'Bricolage Grotesque';padding:10px 11px;margin-top:12px;box-shadow:0 2px 0 #3d8f00;cursor:pointer}.mini-link{display:block;text-align:center;font-size:9px;color:#1478b4;margin-top:9px}.toggle{display:inline-block;float:right;width:28px;height:16px;border-radius:99px;background:#58cc02;position:relative}.toggle:after{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:white;right:2px;top:2px}.mini-stat{background:#f4f7f4;border:1px solid #e0e7e1;border-radius:13px;padding:12px;display:grid;gap:2px}.mini-stat strong{font-size:34px;line-height:1;color:#172018}.mini-stat span{font-size:9px;color:#68736d}.mini-stat>b{font-size:12px;color:#3d8f00;margin-top:8px}.mini-stat>b small{font-weight:500}.mini-recovery{margin-top:9px;padding:9px;border-radius:10px;background:#e6f7d4;font-size:9px;line-height:1.35;font-weight:700}.desktop-screen{min-height:245px}.desktop-body{display:grid;grid-template-columns:1fr 1.15fr;gap:18px;padding:12px 4px 4px}.desktop-panel{align-self:start}.week{display:flex;gap:4px;margin-top:7px}.week i{font-style:normal;width:18px;height:18px;border-radius:50%;background:#e6f7d4;color:#3d8f00;display:grid;place-items:center;font-size:7px;font-weight:800}.stat-panel>strong{font-size:38px;line-height:1}.design-rationale{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.design-rationale div{border-top:2px solid var(--ink);padding:11px 4px}.design-rationale b{display:block;font:800 11px 'Bricolage Grotesque';margin-bottom:4px}.design-rationale span{display:block;font:500 14px/1.35 'Bricolage Grotesque';color:var(--mute)}
+@media(max-width:900px){.screen-grid{grid-template-columns:1fr 1fr}.redesign-head{align-items:flex-start;flex-direction:column}.design-rationale{grid-template-columns:1fr}}
+@media(max-width:560px){.redesign-showcase{padding:16px}.screen-grid{grid-template-columns:1fr}.desktop-card{display:none}.phone-screen{max-width:270px}.redesign-head .btn{width:100%;text-align:center}}
+
+/* Fixed case-study presentation: preserve the original Figma result visuals */
+.research-source{margin-top:22px;padding:22px 24px;background:var(--sf);border:1px solid var(--line);border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.research-source h3{margin:8px 0 5px;font-size:21px}.research-source p{font-size:17px;margin:0 0 8px}.research-source-note{color:var(--mute);font-size:15px!important}
+.doc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font:800 14px 'Bricolage Grotesque',sans-serif;border-radius:12px;padding:11px 16px;white-space:nowrap;background:var(--gr);color:#10260a;box-shadow:0 3px 0 var(--grd)}
+.result-divider{display:flex;align-items:center;gap:14px;margin:34px 0 8px;font:800 14px 'Bricolage Grotesque',sans-serif;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.result-divider:before,.result-divider:after{content:"";height:1px;background:var(--line);flex:1}
+@media(max-width:780px){.research-source{align-items:flex-start;flex-direction:column}.doc-btn{width:100%}}
+
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<nav aria-label="Sections">
+  <div class="w">
+    <a class="nav-brand" href="#top">Duolingo UX Case Study</a>
+    <div class="nav-links" id="nav"></div>
+    <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#problem">Problem</a><a href="#research">Research</a><a href="#findings">Hypotheses</a><a href="#poll">Poll</a><a href="#design">Solution</a><a href="#results">Results</a>
+    </div>
+  </div>
+</nav>
+<main class="w">
+
+<header class="hero" id="top">
+  <div>
+    <h1>Does the streak keep you learning, or keep you afraid?</h1>
+    <p class="lede">A UX case study on how Duolingo's streak system motivates learners, and the point where motivation turns into pressure.</p>
+    <p class="s" style="font-size:15px;color:var(--mute)">Try the streak on the right. It's the problem I studied.</p>
+  </div>
+  <div class="toy" aria-live="polite">
+    <div class="mode" role="group" aria-label="Streak behavior">
+      <button id="m1" aria-pressed="true">Current behavior</button><button id="m2" aria-pressed="false">My proposal</button>
+    </div>
+    <div class="big s" id="n">7</div>
+    <div class="s" style="font-weight:600;color:var(--mute)">day streak</div>
+    <div class="days" id="days"></div>
+    <div class="msg" id="msg">Keep going. Your streak is safe today.</div>
+    <div class="acts"><button class="btn" id="learn">Complete today's lesson</button><button class="btn ghost" id="skip">Skip a day</button></div>
+    <div class="hint">Switch modes, then skip a day to compare.</div>
+  </div>
+</header>
+
+<div class="facts">
+  <div><b>Role</b>UX researcher and designer</div>
+  <div><b>Focus</b>Streak and reminder experience</div>
+  <div><b>Method</b>Interviews, survey, heuristic review, prototype test</div>
+  <div><b>Tools</b>Figma, Canva, Duolingo app</div>
+</div>
+
+<section id="problem">
+  <h2>The problem</h2>
+  <p>Streaks are one of Duolingo's best ideas. They turn a hard habit into a daily win. But the same mechanic can make learners feel guilty, anxious, or punished when real life gets in the way.</p>
+  <p>My question: <b>when does a streak help someone learn, and when does it push them to quit?</b></p>
+</section>
+
+<section id="research">
+  <h2>Research approach &amp; evidence</h2>
+  <p>For this portfolio case study, the following is an <b>illustrative research dataset</b> created from the problem statement. It is not real participant data.</p>
+  <div class="tagp">SIMULATED / PORTFOLIO DEMO</div>
+  <div class="steps" role="tablist" id="tabs"></div>
+  <div class="panel" id="panel" role="tabpanel"></div>
+  <div class="grid" style="margin-top:18px">
+    <div class="hy"><h3>Participants</h3><p><b>8</b> illustrative learners for interview synthesis.</p></div>
+    <div class="hy"><h3>Survey</h3><p><b>30</b> illustrative responses.</p></div>
+    <div class="hy"><h3>Prototype test</h3><p><b>5</b> illustrative usability sessions.</p></div>
+  </div>
+  <div class="research-source">
+    <div>
+      <span class="tagp">RESEARCH DOCUMENT</span>
+      <h3>Research Notes &amp; Illustrative Evidence</h3>
+      <p>The supporting research document contains the interview synthesis, survey framing, heuristic review, design response, and prototype-test notes used in this case study.</p>
+      <p class="research-source-note"><b>Integrity:</b> all participant numbers and findings are explicitly marked simulated/illustrative because real participant data was not supplied.</p>
+    </div>
+    <a class="doc-btn" href="Duolingo_UX_Case_Study_Research_Notes_Illustrative_2.docx" download>Open research document ↗</a>
+  </div>
+</section>
+
+<section id="findings">
+  <h2>What the simulated research suggests</h2>
+  <p>The findings below are illustrative and were generated to demonstrate how this case study could present evidence. They must not be presented as real research.</p>
+  <div class="grid" id="hyp"></div>
+</section>
+
+<section id="poll">
+  <h2>Ask the reader</h2>
+  <p>Visitors can answer the same question I asked my participants. Results show for this visit only.</p>
+  <div class="poll" id="pollbox"><h3 id="pq">How do you feel when you're about to lose your streak?</h3><div id="po"></div></div>
+</section>
+
+<section id="design">
+  <h2>The solution</h2>
+  <p>Three changes that keep what works about streaks and remove the fear. Select one to see what changes and how I'll know it works.</p>
+  <div class="steps" id="soltabs" role="tablist" style="grid-template-columns:repeat(3,1fr)"></div>
+  <div class="panel" id="solpanel" role="tabpanel"></div>
+  <h3 style="margin-top:28px">Try the rest-day idea</h3>
+  <p>Tap the days you know you'll be busy. Those days won't break your streak.</p>
+  <div class="days" id="rest" style="justify-content:flex-start"></div>
+  <div class="msg calm" id="restmsg" style="max-width:520px"></div>
+  <h3 style="margin-top:28px">Priority</h3>
+  <div class="grid" id="prio"></div>
+</section>
+
+<section id="results">
+  <h2>Results and reflection</h2>
+  <p>The redesign was translated into six responsive Figma screens. The images below are the actual case-study result visuals already created for the project — three mobile states and three desktop states.</p>
+  <div class="redesign-showcase" aria-label="Redesigned Figma screens">
+    <div class="redesign-head">
+      <div>
+        <span class="tagp">FIGMA REDESIGN</span>
+        <h3 style="margin-top:10px;font-size:26px">The redesigned experience</h3>
+        <p class="showcase-copy">These are the six responsive screens created for the case study: three mobile states and three desktop states. The prototype focuses on rest-day control, gentler reminders, and progress-first recovery.</p>
+      </div>
+      <a class="btn" href="https://www.figma.com/design/h44jMkPsj08EPdt8DpGa3d?utm_source=chatgpt.com" target="_blank" rel="noopener">Open Figma prototype →</a>
+    </div>
+    <div class="screen-grid">
+      <article class="screen-card">
+        <div class="screen-label"><b>01 — Rest Day</b><span>Mobile</span></div>
+        <div class="phone-screen">
+          <div class="mini-top"><b>Duolingo</b><span>•••</span></div>
+          <div class="mini-pill">REST DAY</div>
+          <h4>Protect your routine</h4>
+          <p>Take a planned break without losing your progress.</p>
+          <div class="mini-panel"><small>TOMORROW</small><strong>Rest day</strong><span>Your 14 day streak stays protected.</span></div>
+          <button class="mini-btn">Schedule rest day</button>
+          <span class="mini-link">Not now</span>
+        </div>
+      </article>
+      <article class="screen-card">
+        <div class="screen-label"><b>02 — Gentler Reminders</b><span>Mobile</span></div>
+        <div class="phone-screen">
+          <div class="mini-top"><b>Duolingo</b><span>•••</span></div>
+          <div class="mini-pill blue">MORE CONTROL</div>
+          <h4>Learning reminders</h4>
+          <p>Choose how reminders should reach you.</p>
+          <div class="mini-panel"><small>REMINDER TONE</small><strong>Encouraging <i class="toggle"></i></strong><hr><small>FREQUENCY</small><strong>Once a day <em>Change</em></strong></div>
+          <button class="mini-btn">Save reminder settings</button>
+        </div>
+      </article>
+      <article class="screen-card">
+        <div class="screen-label"><b>03 — Progress Over Loss</b><span>Mobile</span></div>
+        <div class="phone-screen">
+          <div class="mini-top"><b>Duolingo</b><span>•••</span></div>
+          <div class="mini-pill">14 DAY STREAK</div>
+          <h4>Keep your progress</h4>
+          <p>A missed day doesn't erase what you've learned.</p>
+          <div class="mini-stat"><small>YOUR LEARNING THIS MONTH</small><strong>186</strong><span>lessons completed</span><b>+18% <small>vs. last month</small></b></div>
+          <div class="mini-recovery">The streak paused. Your progress didn't.</div>
+          <button class="mini-btn">Continue learning</button>
+        </div>
+      </article>
+      <article class="screen-card desktop-card">
+        <div class="screen-label"><b>01 — Rest Day</b><span>Desktop</span></div>
+        <div class="desktop-screen"><div class="mini-top"><b>Duolingo</b><span>•••</span></div><div class="desktop-body"><div><div class="mini-pill">REST DAY</div><h4>Protect your routine</h4><p>Take a planned break without losing your progress.</p><button class="mini-btn">Schedule rest day</button></div><div class="desktop-panel"><small>CHOOSE A DAY TO PAUSE</small><strong>Tomorrow</strong><span>14 day streak protected</span><div class="week"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i></div></div></div></div>
+      </article>
+      <article class="screen-card desktop-card">
+        <div class="screen-label"><b>02 — Gentler Reminders</b><span>Desktop</span></div>
+        <div class="desktop-screen"><div class="mini-top"><b>Duolingo</b><span>•••</span></div><div class="desktop-body"><div><div class="mini-pill blue">MORE CONTROL</div><h4>Learning reminders</h4><p>Choose how reminders should reach you.</p></div><div class="desktop-panel"><strong>Keep reminders helpful</strong><span>No guilt. Just a small nudge when it helps.</span><hr><small>REMINDER TONE</small><b>Encouraging <i class="toggle"></i></b><small>FREQUENCY</small><b>Once a day &nbsp; Change</b><button class="mini-btn">Save reminder settings</button></div></div></div>
+      </article>
+      <article class="screen-card desktop-card">
+        <div class="screen-label"><b>03 — Progress Over Loss</b><span>Desktop</span></div>
+        <div class="desktop-screen"><div class="mini-top"><b>Duolingo</b><span>•••</span></div><div class="desktop-body"><div><div class="mini-pill">14 DAY STREAK</div><h4>Keep your progress</h4><p>A missed day doesn't erase what you've learned.</p><button class="mini-btn">Continue learning</button></div><div class="desktop-panel stat-panel"><small>YOUR LEARNING THIS MONTH</small><strong>186</strong><span>lessons completed</span><b>+18%</b><small>vs. last month</small><div class="mini-recovery">The streak paused. Your progress didn't.</div></div></div></div>
+      </article>
+    </div>
+    <div class="design-rationale"><div><b>REST DAYS</b><span>Give learners control over predictable interruptions.</span></div><div><b>GENTLER REMINDERS</b><span>Reduce pressure by making tone and frequency adjustable.</span></div><div><b>PROGRESS OVER LOSS</b><span>Reframe a missed day around accumulated learning.</span></div></div>
+  </div>
+
+  <div class="result-divider">
+    <span>What the redesign changed</span>
+  </div>
+  <div class="ph"><b>Illustrative prototype result</b>In the simulated 5-person test, 4/5 participants understood the rest-day concept without help, 4/5 preferred the progress-focused recovery message, and 3/5 said the gentler reminder felt less pressuring.</div>
+  <div class="cmp">
+    <div class="nt b"><small>Before</small>“You lost your 12-day streak. Start again from 0.”</div>
+    <div class="nt a"><small>Proposed</small>“You know 240 words and 12 lessons. Ready for a quick one today?”</div>
+  </div>
+  <h3>What I learned</h3>
+  <p>The strongest design opportunity is not removing the streak. It is changing the missed-day moment from loss-focused to progress-focused, while giving learners more control over breaks and reminders.</p>
+  <h3>What I'd do next</h3>
+  <p>Run the same test with real participants, compare return-to-learning behavior over a longer period, and validate whether gentler language affects retention rather than only immediate emotion.</p>
+</section>
+
+<div class="ph" style="margin-top:28px"><b>Research integrity note</b>The supporting research document identifies the participant numbers, findings, and prototype-test outcomes as simulated/illustrative because real participant data was not supplied.</div>
+<footer class="site-footer">
+  <div>
+    <strong>Ugra Narasimha Reddy</strong>
+    <span>UX Researcher &amp; Designer</span>
+  </div>
+  <a class="portfolio-btn" href="#" id="portfolio">Portfolio <span aria-hidden="true">→</span></a>
+</footer>
+</main>
+
+<script>
+/* ---- EDIT THESE WITH YOUR REAL RESEARCH ---- */
+var STEPS=[
+ ["Interviews","Illustrative synthesis of 8 learners: 6/8 described the streak as motivating, while 5/8 also described pressure when they were busy. A recurring theme was “I do something small just so I don't lose the number.”"],
+ ["Survey","Illustrative survey of 30 responses: 19/30 (63%) selected motivated as their primary reaction to maintaining a streak; 14/30 (47%) also reported feeling stressed or guilty when a long streak was at risk. Multiple selections were allowed."],
+ ["Heuristic review","Illustrative review identified 6 issues across streak/reminder flows: 2 related to user control, 2 to error recovery, and 2 to visibility of consequences. The missed-day state was the main friction point."],
+ ["Design","The proposal introduces scheduled rest days, gentler reminder language, and a progress-first recovery message. The design keeps the habit loop while reducing the feeling of punishment."],
+ ["Test","Illustrative 5-person usability test: 4/5 understood rest days without explanation; 4/5 preferred the progress-first recovery message; 3/5 described the gentler reminder as less pressuring."]
+];
+var HYP=[
+ ["Streak pressure can encourage minimum-effort lessons","Illustrative interview synthesis: 5/8 learners said they had completed a very short/easy activity mainly to protect a streak. Treat this as a hypothesis until real interviews are conducted."],
+ ["A lost streak can reduce motivation to return","Illustrative survey/test synthesis: 4/5 prototype participants reacted more positively when the recovery message emphasized accumulated learning instead of the lost number."],
+ ["Planned breaks need clearer support","Illustrative prototype test: 4/5 participants understood the rest-day concept without assistance, suggesting the interaction is easy to explain and worth testing with real users."]
+];
+var POLL=["Motivated, I'll do a lesson","Stressed or guilty","I don't care much","I'd rather not be reminded"];
+/* ------------------------------------------- */
+var $=function(i){return document.getElementById(i)};
+// streak toy
+var st={n:7,mode:1,done:false},D=['M','T','W','T','F','S','S'];
+function draw(msg,cls){
+  $('n').textContent=st.n;$('n').classList.toggle('dead',st.n===0);
+  $('days').innerHTML=D.map(function(d,i){return '<div class="d'+(i<Math.min(st.n,7)?' on':'')+'">'+d+'</div>'}).join('');
+  if(msg){$('msg').textContent=msg;$('msg').className='msg '+cls}
+}
+$('learn').onclick=function(){st.n++;st.done=true;draw(st.mode==1?'Streak extended! Do it again tomorrow or you will lose it.':'Nice work. You learned something today.', 'ok')};
+$('skip').onclick=function(){
+  if(st.mode==1){var l=st.n;st.n=0;draw('You lost your '+l+'-day streak. Start over tomorrow?','warn')}
+  else{draw('Rest day noted. Your streak is paused, not lost. You have learned '+st.n+' days so far.','calm')}
+};
+function mode(m){st.mode=m;$('m1').setAttribute('aria-pressed',m==1);$('m2').setAttribute('aria-pressed',m==2);st.n=7;draw(m==1?'Keep going. Your streak is safe today.':'Take a break whenever you need one.','');}
+$('m1').onclick=function(){mode(1)};$('m2').onclick=function(){mode(2)};draw();
+// tabs
+function tab(i){[].forEach.call($('tabs').children,function(b,j){b.setAttribute('aria-selected',i===j)});$('panel').innerHTML='<h3>'+STEPS[i][0]+'</h3><p>'+STEPS[i][1]+'</p>'}
+$('tabs').innerHTML=STEPS.map(function(s,i){return '<button role="tab">'+s[0]+'</button>'}).join('');
+[].forEach.call($('tabs').children,function(b,i){b.onclick=function(){tab(i)}});tab(0);
+// hypotheses
+var SL={'?':'Simulated finding','yes':'Simulated finding','no':'Needs evidence'},NX={'?':'yes',yes:'no',no:'?'};
+$('hyp').innerHTML=HYP.map(function(h,i){return '<div class="hy"><h3>'+h[0]+'</h3><button class="st" data-s="yes" data-i="'+i+'">Simulated finding</button><details><summary>How I check this</summary><p>'+h[1]+'</p></details></div>'}).join('');
+[].forEach.call(document.querySelectorAll('.st'),function(b){b.onclick=function(){var s=NX[b.dataset.s];b.dataset.s=s;b.textContent=SL[s]}});
+// poll
+var V=POLL.map(function(){return 0}),voted=false;
+function pdraw(){var t=V.reduce(function(a,b){return a+b},0);$('po').innerHTML=POLL.map(function(o,i){var p=t?Math.round(V[i]/t*100):0;return '<button class="opt" data-i="'+i+'"><i style="width:'+(voted?p:0)+'%"></i><span>'+o+(voted?'<b>'+p+'%</b>':'')+'</span></button>'}).join('');
+ [].forEach.call($('po').children,function(b){b.onclick=function(){if(voted)return;voted=true;V[+b.dataset.i]++;pdraw()}})}
+pdraw();
+
+// solution
+var SOL=[
+ ["Rest days","Losing a streak after planned breaks or illness.","Let learners schedule rest days and pause the streak when life gets in the way.","You lost your 12-day streak.","Streak paused. You've learned 12 days so far. Pick up when you're ready.","Fewer people quit within a week of a missed day."],
+ ["Gentler reminders","Guilt-based notifications that make learners anxious.","Use encouraging wording and give users control over how often reminders arrive.","Don't let your streak die! Your owl is sad.","A 5-minute lesson fits today. Want to keep the habit going?","Learners report feeling supported, not pressured, in interviews."],
+ ["Progress over loss","The missed-day moment focuses on what was lost.","Lead with what the learner has gained, then offer an easy next step.","Streak lost. Start again from 0.","You know 240 words and 12 lessons. Ready for a quick one today?","People restart sooner after a missed day."]
+];
+function sol(i){var x=SOL[i];[].forEach.call($('soltabs').children,function(b,j){b.setAttribute('aria-selected',i===j)});
+ $('solpanel').innerHTML='<span class="tagp">Proposed, not yet tested</span><h3 style="margin-top:10px">'+x[0]+'</h3><p><b>Problem:</b> '+x[1]+'</p><p><b>Change:</b> '+x[2]+'</p><div class="cmp"><div class="nt b"><small>Today</small>'+x[3]+'</div><div class="nt a"><small>Proposed</small>'+x[4]+'</div></div><p><b>How I will know it works:</b> '+x[5]+'</p>'}
+$('soltabs').innerHTML=SOL.map(function(x){return '<button role="tab">'+x[0]+'</button>'}).join('');
+[].forEach.call($('soltabs').children,function(b,i){b.onclick=function(){sol(i)}});sol(0);
+var R=[0,0,0,0,0,0,0];
+function rd(){$('rest').innerHTML=D.map(function(d,i){return '<button class="rest" aria-pressed="'+(R[i]==1)+'" aria-label="Rest day '+d+'" data-i="'+i+'">'+d+'</button>'}).join('');
+ var n=R.reduce(function(a,b){return a+b},0);$('restmsg').textContent=n?n+' rest day'+(n>1?'s':'')+' planned. Your streak is protected on those days.':'No rest days planned yet. Tap a day to protect your streak.';
+ [].forEach.call($('rest').children,function(b){b.onclick=function(){R[+b.dataset.i]^=1;rd();var k=document.querySelector('.rest[data-i="'+b.dataset.i+'"]');if(k)k.focus()}})}
+rd();
+var PR=[["Rest days","High impact, medium effort","Needs scheduling and streak logic."],["Gentler reminders","Medium impact, low effort","Mostly wording and settings."],["Progress over loss","Medium impact, low effort","Changes one screen and its copy."]];
+$('prio').innerHTML=PR.map(function(p){return '<div class="hy"><h3>'+p[0]+'</h3><span class="tagp">'+p[1]+'</span><p>'+p[2]+'</p></div>'}).join('');
+// nav + progress
+var S=[['problem','Problem'],['research','Research'],['findings','Hypotheses'],['poll','Poll'],['design','Solution'],['results','Results']];
+$('portfolio').onclick=function(e){if(this.getAttribute('href')==='#'){e.preventDefault();alert('Add your portfolio URL to the Portfolio button in the HTML.')}};
+$('nav').innerHTML=S.map(function(s){return '<a href="#'+s[0]+'" data-t="'+s[0]+'">'+s[1]+'</a>'}).join('');
+$('hamburger').onclick=function(){var open=$('mobileNav').classList.toggle('open');$('hamburger').setAttribute('aria-expanded',open);};
+[].forEach.call(document.querySelectorAll('#mobileNav a'),function(a){a.onclick=function(){$('mobileNav').classList.remove('open');$('hamburger').setAttribute('aria-expanded','false')}});
+addEventListener('scroll',function(){var h=document.documentElement;$('prog').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'});
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)[].forEach.call(document.querySelectorAll('nav a'),function(a){a.classList.toggle('on',a.dataset.t===x.target.id)})})},{rootMargin:'-40% 0px -55% 0px'});
+S.forEach(function(s){io.observe($(s[0]))});
+</script>
+</body>
+</html>
